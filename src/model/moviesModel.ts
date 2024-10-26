@@ -1,5 +1,5 @@
 export type MovieType = {
-  movie_id: string;
+  id: number;
   imageURL: string;
   title: string;
   summary: string;

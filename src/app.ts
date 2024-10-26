@@ -1,7 +1,12 @@
 import express, { Request, Response } from "express";
 import { client } from "./database/index";
+import recRouter from "./routes/recommendationsRoutes";
+import cors from "cors";
+
 const port = 2137;
 const app = express();
+
+app.use(cors({ origin: "http://localhost:5173" }));
 
 async function startServer() {
   try {
@@ -11,7 +16,7 @@ async function startServer() {
     console.error(error);
   }
 
-  //app.use("/recommendations");
+  app.use("/recommendations", recRouter);
 
   app.get("/", (req: Request, res: Response) => {
     res.sendStatus(404);
