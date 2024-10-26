@@ -1,14 +1,27 @@
 import express, { Request, Response } from "express";
-
-const port = process.env.PORT || 2137;
+import { client } from "./database/index";
+const port = 2137;
 const app = express();
 
-app.use("/recommendations");
+async function startServer() {
+  try {
+    await client.connect();
+    console.log("DB connected!");
+  } catch (error) {
+    console.error(error);
+  }
 
-app.get("/", (req: Request, res: Response) => {
-  res.json({ message: "Wrong request!" });
-});
+  //app.use("/recommendations");
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  app.get("/", (req: Request, res: Response) => {
+    res.sendStatus(404);
+  });
+
+  app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+  });
+}
+
+startServer().catch((error) => {
+  console.log(error);
 });
