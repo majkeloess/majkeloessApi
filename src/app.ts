@@ -1,10 +1,12 @@
 import express, { Request, Response } from "express";
 
-const app = express();
 const port = process.env.PORT || 2137;
+const app = express();
+
+app.use("/recommendations");
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("TypeScript Express init");
+  res.json({ message: "Wrong request!" });
 });
 
 app.listen(port, () => {
