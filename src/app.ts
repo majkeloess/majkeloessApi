@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import { client } from "./database/index";
 import recRouter from "./routes/recommendationsRoutes";
 import cors from "cors";
+import { apiKeyMiddleware } from "./middlewares/apiKeyMiddleware";
 
 const port = 2137;
 const app = express();
@@ -16,10 +17,10 @@ async function startServer() {
     console.error(error);
   }
 
-  app.use("/recommendations", recRouter);
+  app.use("/recommendations", apiKeyMiddleware, recRouter);
 
-  app.get("/", (req: Request, res: Response) => {
-    res.sendStatus(404);
+  app.get("/", apiKeyMiddleware, (req: Request, res: Response) => {
+    res.status(404).json({ error: "Not found!" });
   });
 
   app.listen(port, () => {
@@ -28,5 +29,5 @@ async function startServer() {
 }
 
 startServer().catch((error) => {
-  console.log(error);
+  console.error(error);
 });
