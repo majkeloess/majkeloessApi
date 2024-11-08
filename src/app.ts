@@ -4,30 +4,24 @@ import recRouter from "./routes/recommendationsRoutes";
 import cors from "cors";
 import { apiKeyMiddleware } from "./middlewares/apiKeyMiddleware";
 
-const port = 2137;
 const app = express();
-
 app.use(cors());
 
-async function startServer() {
+async function initializeDatabase() {
   try {
     await client.connect();
     console.log("DB connected!");
   } catch (error) {
-    console.error(error);
+    console.error("DB connection error:", error);
   }
-
-  app.use("/recommendations", apiKeyMiddleware, recRouter);
-
-  app.get("/", apiKeyMiddleware, (req: Request, res: Response) => {
-    res.status(404).json({ error: "Not found!" });
-  });
-
-  app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-  });
 }
 
-startServer().catch((error) => {
-  console.error(error);
+initializeDatabase();
+
+app.use("/recommendations", apiKeyMiddleware, recRouter);
+
+app.get("/", apiKeyMiddleware, (req: Request, res: Response) => {
+  res.status(404).json({ error: "Not found!" });
 });
+
+export default app;
