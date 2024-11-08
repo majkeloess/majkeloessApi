@@ -7,7 +7,7 @@ import { apiKeyMiddleware } from "./middlewares/apiKeyMiddleware";
 const port = 2137;
 const app = express();
 
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors());
 
 async function startServer() {
   try {
