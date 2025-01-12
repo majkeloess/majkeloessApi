@@ -1,5 +1,5 @@
-import { client } from "../database";
-import { MovieType } from "../model/moviesModel";
+import { client } from "../../database";
+import { MovieType } from "../../model/matchflix/moviesModel";
 
 const fetchMovies = async (
   genre: string = "all"
@@ -9,8 +9,8 @@ const fetchMovies = async (
   try {
     const text =
       genre === "all"
-        ? "SELECT * FROM movies"
-        : "SELECT * FROM movies WHERE genre = $1";
+        ? "SELECT * FROM matchflix.movies"
+        : "SELECT * FROM matchflix.movies WHERE genre = $1";
 
     const genreProcessed = genre[0].toUpperCase() + genre.slice(1);
     const values = genre === "all" ? [] : [genreProcessed];

@@ -1,12 +1,13 @@
 import express, { Request, Response } from "express";
 import { client } from "./database/index";
-import recRouter from "./routes/recommendationsRoutes";
+import moviesRouter from "./routes/moviesRouter";
 import cors from "cors";
 import { apiKeyMiddleware } from "./middlewares/apiKeyMiddleware";
-import cron from "node-cron";
-
+import techMilionerzyRouter from "./routes/techmilionerzyRouter";
 const app = express();
 app.use(cors());
+
+const PORT = process.env.PORT || 3000;
 
 async function initializeDatabase() {
   try {
@@ -19,19 +20,17 @@ async function initializeDatabase() {
 
 initializeDatabase();
 
-cron.schedule("0 * * * *", async () => {
-  try {
-    await client.query("SELECT 1");
-    console.log("Keep-alive query executed");
-  } catch (error) {
-    console.error("Keep-alive query failed", error);
-  }
-});
-
-app.use("/matchflix/recommendations", apiKeyMiddleware, recRouter);
+app.use("/techmilionerzy", apiKeyMiddleware, techMilionerzyRouter);
+app.use("/matchflix/movies", apiKeyMiddleware, moviesRouter);
 
 app.get("/", apiKeyMiddleware, (req: Request, res: Response) => {
   res.status(404).json({ error: "Not found!" });
 });
+
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
+}
 
 export default app;

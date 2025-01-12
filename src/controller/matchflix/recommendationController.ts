@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createRecommendation } from "../services/recommendationsService";
+import { createRecommendation } from "../../services/matchlix/recommendationsService";
 
 export const updateRecommendation = async (req: Request, res: Response) => {
   const { id, status } = req.params;
