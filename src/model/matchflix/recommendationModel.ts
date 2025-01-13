@@ -1,7 +1,11 @@
-export type StatusType = "accepted" | "rejected";
+import { z } from "zod";
 
-export type RecommendationsType = {
-  rec_id: number;
-  status: StatusType;
-  movie_id: number;
-};
+export const StatusSchema = z.enum(["accepted", "rejected"]);
+export type StatusType = z.infer<typeof StatusSchema>;
+
+export const RecommendationSchema = z.object({
+  rec_id: z.number(),
+  status: StatusSchema,
+  movie_id: z.number(),
+});
+export type RecommendationsType = z.infer<typeof RecommendationSchema>;
