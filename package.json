@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "nodemon src/app.ts",
     "build": "tsc",
-    "serve": "node dist/app.js"
+    "serve": "node dist/app.js",
+    "start": "node dist/app.js",
+    "vercel-build": "npm run build"
   },
   "author": "",
   "license": "ISC",

@@ -27,7 +27,7 @@ app.get("/", apiKeyMiddleware, (req: Request, res: Response) => {
   res.status(404).json({ error: "Not found!" });
 });
 
-if (require.main === module) {
+if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
   });
